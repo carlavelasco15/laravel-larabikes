@@ -12,6 +12,18 @@
             </div>
         @endif
 
+        {{-- <form method="POST" action="{{route('bikes.search')}}" class="col-4 d-flex flex-row">
+            {{csrf_field()}}
+            <input name="marca" type="text" class="col form-control m-2"
+                    placeholder="Marca" maxlength="16" required
+                    value="{{empty($marca) ? '' : $marca}}">
+
+            <input name="modelo" type="text" class="col form-control m-2"
+                    placeholder="Modelo" maxlength="16" required
+                    value="{{empty($modelo) ? '' : $modelo}}">
+            <button type="submit" class="col btn btn-primary m-2">Buscar</button>
+        </form> --}}
+
         <div class="row">
             <div class="col-6 text-start">{{ $bikes->links() }}</div>
             <div class="col-6 text-end">
@@ -27,7 +39,7 @@
                 <th>Operaciones</th>
             </tr>
 
-            @foreach($bikes as $bike)
+            @forelse($bikes as $bike)
                 <tr>
                     <td>{{ $bike->id }}</td>
                     <td>{{ $bike->marca }}</td>
@@ -40,7 +52,7 @@
                         </a>
 
                         <a href="{{route('bikes.edit', $bike->id)}}">
-                            <img    src="{{asset('images/buttons/edit.png')}}"
+                            <img    src="{{asset('images/buttons/update.png')}}"
                                     alt="Modificar" title="Modificar"
                                     height="20" width="20">
                         </a>
@@ -50,13 +62,18 @@
                                     alt="Borrar" title="Borrar"
                                     height="20" width="20">
                         </a>
-
                     </td>
                 </tr>
-            @endforeach
+                @if($loop->last)
+                <tr>
+                    <td colspan="4">Mostrando {{sizeof($bikes)}} de {{$total}}.</td>
+                </tr>
+                @endif
+            @empty
             <tr>
-                <td colspan="4">Mostrando {{sizeof($bikes)}} de {{$total}}.</td>
+                <td colspan="4">No hay motos para mostrar</td>
             </tr>
+            @endforelse
         </table>
         <div class="btn-group" role="group" label="Links">
             <a href="{{url('/')}}" class="btn btn-primary mr-2">Inicio</a>

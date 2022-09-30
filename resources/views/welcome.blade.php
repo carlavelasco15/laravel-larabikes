@@ -9,11 +9,19 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
 </head>
 <body class="container p-3">
+    @env(['local', 'test'])
+        <div class="alert alert-warning">
+            <b>Atención:</b> estas probando la aplicación en modo local o test.
+        </div>
+    @endenv
+
     <nav>
         <ul class="nav nav-pills my-3">
             <li class="nav-item mr-2"><a class="nav-link" href="{{url('/')}}"></a>Inici</li>
             <li class="nav-item mr-2"><a class="nav-link" href="{{route('bikes.index')}}">Garaje</a></li>
+            @auth
             <li class="nav-item mr-2"><a class="nav-link" href="{{route('bikes.create')}}">Nueva moto</a></li>
+            @endauth
         </ul>
     </nav>
 
