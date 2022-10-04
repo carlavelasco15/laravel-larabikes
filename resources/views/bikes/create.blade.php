@@ -1,19 +1,10 @@
-@extends('welcome')
+@extends('layouts.master')
+
+@section('titulo', 'Nueva Moto')
 <h1 class="my-2">Gestor de motos Larabikes</h1>
 
-@section('main')
-    <h2>Nueva moto</h2>
-
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
+@section('contenido')
+    
     <form action="{{route('bikes.store')}}" class="my-2 border p-5" method="POST">
         {{csrf_field()}}
         <div class="form-group row">
@@ -53,9 +44,9 @@
             <button type="reset" class="btn btn-secondary m-2 mt-5">Borrar</button>
         </div>
     </form>
+@endsection
 
-    <div class="btn-group" role="group" aria-label="Links">
-        <a href="{{url('/')}}" class="btn btn-primary m-2">Inicio</a>
-        <a href="{{route('bikes.index')}}" class="btn btn-primary m-2">Garaje</a>
-    </div>
+@section('enlaces')
+    @parent
+    <a href="{{route('bikes.index')}}" class="btn btn-primary m-2">Garaje</a>
 @endsection
