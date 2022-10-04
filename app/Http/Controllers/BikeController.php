@@ -39,17 +39,31 @@ class BikeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'marca' => 'required|max:255',
+            'marca' => 'required|max:16',
             'modelo' => 'required|max:255',
             'precio' => 'required|numeric',
             'kms' => 'required|integer',
-            'matriculada' => 'sometimes'
+            'matriculada' => 'sometimes',
+            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
 
-        $bike = Bike::create($request->all());
 
-        return redirect()->route('bikes.show', $bike->id)
-                ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente.");
+        $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada']);
+
+        $datos += ['imagen' => NULL];
+
+        if($request->hasFile('imagen')) {
+            /* dd(config('filesystems.bikesImageDir')); */
+            $ruta = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
+            $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
+        }
+
+        $bike = Bike::create($datos);
+
+        return redirect()
+                ->route('bikes.show', $bike->id)
+                ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente")
+                ->cookie('lastInsertID', $bike->id, 0);
     }
 
     /**
@@ -130,17 +144,28 @@ class BikeController extends Controller
     public function search(Request $request){
         $request->validate([
             'marca' => 'required|max:16',
-            'modelo' => 'max:16'
+            'modelo' => 'required|max:255',
+            'precio' => 'required|numeric',
+            'kms' => 'required|integer',
+            'matriculada' => 'sometimes',
+            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
 
-        $marca = $request->input('marca', '');
-        $modelo = $request->input('modelo', '');
 
-        $bikes = Bike::where('marca', 'like', "%$marca%")
-                        ->where('modelo', 'like', "%$modelo%")
-                        ->paginate(10)
-                        ->appends(['marca'=>$marca, 'modelo'=>$modelo]);
+        $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada']);
 
-        return view('bikes.list', ['bikes'=>$bikes, 'marca'=>$marca, 'modelo'=>$modelo]);
+        $datos += ['imagen' => NULL];
+
+        if($request->hasFile('imagen')) {
+            $ruta = $request->file('imagen')->store(config('finesystems.bikesImageDir'));
+            $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
+        }
+
+        $bike = Bike::create($datos);
+
+        return redirect()
+                ->route('bikes.show', $bike->id)
+                ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente")
+                ->cookie('lastInsertID', $bike->id, 0);
     }
 }

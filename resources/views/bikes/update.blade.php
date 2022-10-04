@@ -1,7 +1,7 @@
 @extends('welcome')
 <h1 class="my-2">Gestor de motos Larabikes</h1>
 
-@section('main')
+@section('contenido')
     <h2>Actualización de la moto {{"$bike->marca $bike->modelo"}}</h2>
 
     @if ($errors->any())

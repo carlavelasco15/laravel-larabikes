@@ -1,9 +1,10 @@
+@php($pagina ='listamotos')
 @extends('welcome')
 
 <h1 class="my-2">Gestor de motos Larabikes</h1>
 
 
-@section('main')
+@section('contenido')
         <h2>Listado de motos</h2>
 
         @if(Session::has('success'))
@@ -34,6 +35,7 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <th>ID</th>
+                <th>Imagen</th>
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Operaciones</th>
@@ -42,6 +44,16 @@
             @forelse($bikes as $bike)
                 <tr>
                     <td>{{ $bike->id }}</td>
+                    <td class="text-center" style="max-width: 80px">
+                        <img class="rounded" style="max-width: 80%"
+                            alt="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+                            title="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+                            src="{{
+                                    $bike->imagen?
+                                    asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen:
+                                    asset('storage/'.config('filesystems.bikesImageDir')).'/default.jpg'
+                                }}">
+                    </td>
                     <td>{{ $bike->marca }}</td>
                     <td>{{ $bike->modelo }}</td>
                     <td class="text-center">

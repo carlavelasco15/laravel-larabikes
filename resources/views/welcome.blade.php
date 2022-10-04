@@ -1,4 +1,4 @@
-@php($pagina='portada')
+@php($pagina ='portada')
 
 @extends('layouts.master')
 

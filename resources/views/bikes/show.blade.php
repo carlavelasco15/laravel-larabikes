@@ -2,7 +2,7 @@
 <h1 class="my-2">Gestor de motos Larabikes</h1>
 
 
-@section('main')
+@section('contenido')
     <h2>Detalles de la moto {{"$bike->marca $bike->modelo"}}</h2>
 
     @if(Session::has('success'))
@@ -39,6 +39,19 @@
         <tr>
             <td>Matriculada</td>
             <td>{{$bike->matriculada? 'SI' : 'NO'}}</td>
+        </tr>
+        <tr>
+            <td>Imagen</td>
+            <td class="text-start">
+                <img class="rounded" style="max-width: 400px"
+                    alt="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+                    title="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+                    src="{{
+                            $bike->imagen?
+                            asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen:
+                            asset('storage/'.config('filesystems.bikesimageDir')).'/default.jpg'
+                        }}">
+            </td>
         </tr>
     </table>
     <div class="text-end my-3">

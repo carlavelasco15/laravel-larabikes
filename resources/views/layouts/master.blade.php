@@ -26,11 +26,11 @@
             <li class="nav-item mr-2">
                 <a class="nav-link {{ $pagina == 'listamotos' ? 'active': '' }}" href="{{route('bikes.index')}}">Garaje</a>
             </li>
-            <!-- @auth -->
+            {{-- @auth --}}
             <li class="nav-item mr-2">
                 <a class="nav-link {{ $pagina == 'nuevamoto' ? 'active': '' }}" href="{{route('bikes.create')}}">Nueva moto</a>
             </li>
-            <!-- @endauth -->
+            {{-- @endauth --}}
         </ul>
     </nav>
     @show
@@ -42,7 +42,7 @@
 
         @includeWhen(Session::has('success'), 'layouts.success')
         @includeWhen($errors->any(), 'layouts.error')
-        
+
         <p>Contamos con un catálogo de {{ $total }} motos.</p>
 
         @yield('contenido')

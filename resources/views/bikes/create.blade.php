@@ -1,11 +1,12 @@
+@php($pagina ='nuevamoto')
 @extends('layouts.master')
 
 @section('titulo', 'Nueva Moto')
 <h1 class="my-2">Gestor de motos Larabikes</h1>
 
 @section('contenido')
-    
-    <form action="{{route('bikes.store')}}" class="my-2 border p-5" method="POST">
+
+    <form action="{{route('bikes.store')}}" enctype="multipart/form-data" class="my-2 border p-5" method="POST">
         {{csrf_field()}}
         <div class="form-group row">
             <label for="inputMarca" class="col-sm-2 col-form-label">Marca</label>
@@ -37,6 +38,11 @@
                         type="checkbox" {{empty(old('matriculada')) ? "" : "checked"}}>
                 <label class="formcheck-label">Matriculada</label>
             </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
+            <input type="file" name="imagen" class="form-control-file col-sm-10" id="inputImagen">
         </div>
 
         <div class="form-group row">
