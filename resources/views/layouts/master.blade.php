@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Aplicación de gestión de motos Larabikes">
-    <title>{{config('app.name')}} - @yield('titulo')</title>ç
+    <title>{{config('app.name')}} - @yield('titulo')</title>
 
     <!-- CSS para Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
@@ -17,7 +17,7 @@
         </div>
     @endenv
 
-    @setion('navegacion')
+    @section('navegacion')
     <nav>
         <ul class="nav nav-pills my-3">
             <li class="nav-item mr-2">
@@ -26,11 +26,11 @@
             <li class="nav-item mr-2">
                 <a class="nav-link {{ $pagina == 'listamotos' ? 'active': '' }}" href="{{route('bikes.index')}}">Garaje</a>
             </li>
-            @auth
+            <!-- @auth -->
             <li class="nav-item mr-2">
                 <a class="nav-link {{ $pagina == 'nuevamoto' ? 'active': '' }}" href="{{route('bikes.create')}}">Nueva moto</a>
             </li>
-            @endauth
+            <!-- @endauth -->
         </ul>
     </nav>
     @show
@@ -40,7 +40,7 @@
     <main>
         <h2>@yield('titulo')</h2>
 
-        @includeWhen(Session:has('success'), 'layouts.success')
+        @includeWhen(Session::has('success'), 'layouts.success')
         @includeWhen($errors->any(), 'layouts.error')
         
         @yield('contenido')
@@ -55,7 +55,7 @@
 
     <!-- FOOTER -->
     @section('pie')
-    <footer class="page-footer font-smqll p-4 bg-light">
+    <footer class="page-footer font-small p-4 bg-light">
         <p>Aplicación creada por Robert Sallent como ejemplo en clase.
             Desarrollada haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
     </footer>
@@ -63,4 +63,3 @@
 
 </body>
 </html>
-
