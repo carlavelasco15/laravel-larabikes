@@ -43,6 +43,8 @@
         @includeWhen(Session::has('success'), 'layouts.success')
         @includeWhen($errors->any(), 'layouts.error')
         
+        <p>Contamos con un catálogo de {{ $total }} motos.</p>
+
         @yield('contenido')
 
 
