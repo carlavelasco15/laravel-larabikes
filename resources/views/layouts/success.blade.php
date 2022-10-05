@@ -1,3 +1,2 @@
-<div class="alert alert-success">
-    {{ Session::get('success') }}
-</div>
+<x-alert type="success" message="{{ Session::get('success') }}"/>
+    

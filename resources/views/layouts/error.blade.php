@@ -1,7 +1,7 @@
-<div class="alert alert-danger">
+<x-alert type="danger" message="Se han producido errores:">
     <ul>
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
     </ul>
-</div>
+</x-alert>

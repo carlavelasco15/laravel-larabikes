@@ -29,9 +29,9 @@ return [
     */
 
     'bikesImageDir' => 'images/bikes/',
-
+    
     'disks' => [
-
+        
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

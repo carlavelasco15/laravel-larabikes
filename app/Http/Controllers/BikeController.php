@@ -38,6 +38,7 @@ class BikeController extends Controller
      */
     public function store(Request $request)
     {
+        /* dd(config('filesystems.prova')); */
         $request->validate([
             'marca' => 'required|max:16',
             'modelo' => 'required|max:255',
@@ -45,15 +46,13 @@ class BikeController extends Controller
             'kms' => 'required|integer',
             'matriculada' => 'sometimes',
             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-        ]);
-
-
+        ]); 
+        
         $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada']);
 
         $datos += ['imagen' => NULL];
 
         if($request->hasFile('imagen')) {
-            /* dd(config('filesystems.bikesImageDir')); */
             $ruta = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
             $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
         }
@@ -74,7 +73,7 @@ class BikeController extends Controller
      */
     public function show($id)
     {
-        /* dd('prova'); */
+
         $bike = Bike::findOrFail($id);
         return view('bikes.show', [
             'bike'=>$bike

@@ -5,12 +5,6 @@
 @section('contenido')
     <h2>Detalles de la moto {{"$bike->marca $bike->modelo"}}</h2>
 
-    @if(Session::has('success'))
-        <div class="alert alert-success">
-            {{Session::get('success')}}
-        </div>
-    @endif
-
     <table class="table table-striped table-bordered">
         <tr>
             <td>ID</td>
@@ -38,7 +32,7 @@
         </tr>
         <tr>
             <td>Matriculada</td>
-            <td>{{$bike->matriculada? 'SI' : 'NO'}}</td>
+            <td>{{$bike->matriculada ? 'SI' : 'NO'}}</td>
         </tr>
         <tr>
             <td>Imagen</td>
