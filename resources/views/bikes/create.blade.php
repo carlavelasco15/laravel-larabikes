@@ -40,6 +40,50 @@
             </div>
         </div>
 
+        <div class="form-group col-sm-6">
+            <label for="inputMatricula" class="col-sm-2 form-label">Matrícula</label>
+            <input type="text" class="up form-control" name="matricula" id="inputMatricula"
+                maxlength="7" value="{{ old('matricula') }}">
+        </div>
+
+
+        <div class="form-group col-sm-6">
+            <label for="confirmMatricula" class="col-sm-2 form-label">Repetir:</label>
+            <input type="text" class="up form-control" name="matricula_confirmation" id="confirmMatricula"
+                maxlength="7" value="{{ old('matricula_confirmation') }}">
+        </div>
+
+        <script>
+            inputMatricula.disabled = !chkMatriculada.checked;
+            confirmMatricula.disabled = !chkMatriculada.checked;
+
+            chkMatriculada.onchange = function() {
+                inputMatricula.disabled = !chkMatriculada.checked;
+                confirmMatricula.disabled = !chkMatriculada.checked;
+            }
+        </script>
+
+        <div class="form-group row">
+            <div class="form-check col-sm-6">
+                <input type="checkbox" id="chkColor" class="form-check-input">
+                <label class="form-check-label">Indicar el color</label>
+            </div>
+        </div>
+
+        <div class="form-check col-sm-6">
+            <label for="inputColor" class="col-sm-2 fom-label">Color</label>
+            <input type="color" class="up form-control form-control-color" name="color"
+                    id="inputColor" value="{{ old('color') ?? '#FFFFFF' }}">
+        </div>
+
+        <script>
+            inputColor.disabled = !chkColor.checked;
+
+            chkColor.onchange = function() {
+                inputColor.disabled = !chkColor.checked;
+            }
+        </script>
+
         <div class="form-group row">
             <label for="inputImagen" class="col-sm-2 col-form-label">Imagen</label>
             <input type="file" name="imagen" class="form-control-file col-sm-10" id="inputImagen">

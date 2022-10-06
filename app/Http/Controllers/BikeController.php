@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bike;
+use App\Http\Requests\BikeRequest;
 
 class BikeController extends Controller
 {
@@ -36,19 +37,9 @@ class BikeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BikeRequest $request)
     {
-        /* dd(config('filesystems.prova')); */
-        $request->validate([
-            'marca' => 'required|max:16',
-            'modelo' => 'required|max:255',
-            'precio' => 'required|numeric',
-            'kms' => 'required|integer',
-            'matriculada' => 'sometimes',
-            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-        ]); 
-        
-        $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada']);
+        $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada', 'matricula', 'color']);
 
         $datos += ['imagen' => NULL];
 
@@ -103,16 +94,28 @@ class BikeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $bike = Bike::findOrFail($id);
         $request->validate([
             'marca' => 'required|max:255',
-            'modelo' => 'required|max:255',
-            'precio' => 'required|numeric',
-            'kms' => 'required|integer',
-            'matriculada' => 'sometimes'
+            'modelo' => ['required', 'max:255', new \App\Rules\Mayusculas()],
+            'precio' => 'required|numeric|min:0',
+            'kms' => 'required|integer|min:0',
+            'matriculada' => 'required_with:matricula',
+            'matricula' => "required_if:matriculada,1|
+                            nullable|
+                            regex:/^\d{4}[B-Z]{3}$/i|
+                            unique:bikes,matricula,$bike->id",
+            'color' => 'nullable|regex:/^#[\dA-F]{6}$/i',
+            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
 
-        $bike = Bike::findOrFail($id);
-        $bike->update($request->all()+['matriculada' => 0]);
+        $datos = $request->only('marca', 'modelo', 'kms', 'precio');
+
+        $datos['matriculada'] = $request->has('matriculada') ? 1 : 0;
+        $datos['matricula'] = $request->has('matriculada') ? $request->input('matricula') : NULL;
+        $datos['color'] = $request->input('color') ?? NULL;
+
+        $bike->update($datos);
 
         return back()->with('success', "Moto $bike->marca $bike->modelo actualizada");
     }

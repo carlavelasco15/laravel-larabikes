@@ -38,6 +38,8 @@
                 <th>Imagen</th>
                 <th>Marca</th>
                 <th>Modelo</th>
+                <th>Matrícula</th>
+                <th>Color</th>
                 <th>Operaciones</th>
             </tr>
 
@@ -56,6 +58,8 @@
                     </td>
                     <td>{{ $bike->marca }}</td>
                     <td>{{ $bike->modelo }}</td>
+                    <td>{{ $bike->matrícula }}</td>
+                    <td style="background-color: {{ $bike->color }}">{{ $bike->color }}</td>
                     <td class="text-center">
                         <a href="{{route('bikes.show', $bike->id)}}">
                             <img    src="{{asset('images/buttons/show.png')}}"
