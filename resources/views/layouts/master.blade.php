@@ -30,6 +30,9 @@
                 <a class="nav-link {{ $pagina == 'nuevamoto' ? 'active': '' }}" href="{{route('bikes.create')}}">Nueva moto</a>
             </li>
             {{-- @endauth --}}
+            <li class="nav-item mr-2">
+                <a href="{{ route('contacto') }}" class="nav-link {{ $pagina == 'contacto' ? 'active' : '' }}">Contacto</a>
+            </li>
         </ul>
     </nav>
     @show
