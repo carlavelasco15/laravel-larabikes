@@ -2,7 +2,6 @@
 @extends('layouts.master')
 
 @section('titulo', 'Nueva Moto')
-<h1 class="my-2">Gestor de motos Larabikes</h1>
 
 @section('contenido')
 

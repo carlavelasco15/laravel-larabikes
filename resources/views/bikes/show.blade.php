@@ -1,6 +1,4 @@
 @extends('welcome')
-<h1 class="my-2">Gestor de motos Larabikes</h1>
-
 
 @section('contenido')
     <h2>Detalles de la moto {{"$bike->marca $bike->modelo"}}</h2>
@@ -62,6 +60,7 @@
     </table>
     <div class="text-end my-3">
         <div class="btn-group mx-2">
+            @auth
             <a href="{{route('bikes.edit', $bike->id) }}" class="mx-2">
 
                 <img    src="{{asset('images/buttons/update.png')}}" alt="Modificar" title="Modificar"
@@ -73,6 +72,7 @@
                 <img    src="{{asset('images/buttons/delete.png')}}" alt="Borrar" title="Borrar"
                         height="40" width="40">
             </a>
+            @endauth
         </div>
     </div>
 

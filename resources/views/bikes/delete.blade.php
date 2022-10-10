@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('titulo', "Confirmación de borrado de $bike->marca $bike->modelo")
-<h1 class="my-2">Gestor de motos Larabikes</h1>
 
 @section('contenido')
     <form action="{{route('bikes.destroy', $bike->id)}}" class="my-2 border p-5" method="POST">
