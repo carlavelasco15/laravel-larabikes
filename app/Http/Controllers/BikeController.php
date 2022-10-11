@@ -9,7 +9,8 @@ use App\Http\Requests\BikeRequest;
 class BikeController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth')->except('index', 'show', 'search');
+        $this->middleware('verified')->except('index', 'show', 'search');
+        $this->middleware('password.confirm')->only('destroy');
     }
 
     /**

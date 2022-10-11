@@ -38,6 +38,17 @@
         <x-local :mode="App::environment()"/>
     @endenv
 
+    @if(Auth::user() && !Auth::user()->email_verified_at)
+        <x-alert type="danger" message="{{ __('Verify Your Email Address') }}">
+            {{ __('If you did not receive the email') }},
+
+            <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                @csrf
+                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+            </form>
+        </x-alert>
+    @endif
+
             <h1 class="my-2">Primer ejemplo con Laravel</h1>
 
             <main>
