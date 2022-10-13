@@ -13,7 +13,11 @@ class BikeUpdateRequest extends BikeRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->can('update', $this->route('bike'));
+    }
+
+    protected function failedAuthorization() {
+        throw new AuthorizationException('No puedes modificar una moto que no es tuya.');
     }
 
     /**

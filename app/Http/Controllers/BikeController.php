@@ -45,16 +45,13 @@ class BikeController extends Controller
     public function store(BikeRequest $request)
     {
         $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada', 'matricula', 'color']);
-
         $datos += ['imagen' => NULL];
-
         if($request->hasFile('imagen')) {
             $ruta = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
             $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
         }
-
+        $datos['user_id'] = $request->user()->id;
         $bike = Bike::create($datos);
-
         return redirect()
                 ->route('bikes.show', $bike->id)
                 ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente")
@@ -67,10 +64,8 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Bike $bike)
     {
-
-        $bike = Bike::findOrFail($id);
         return view('bikes.show', [
             'bike'=>$bike
         ]);
@@ -82,9 +77,10 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, Bike $bike)
     {
-        $bike = Bike::findOrFail($id);
+        if($request->user()->cant('update', $bike))
+                abort(401, 'No puedes borrar una moto que no es tuya');
         return view('bikes.update', [
             'bike' => $bike,
         ]);
@@ -97,9 +93,10 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Bike $bike)
     {
-        $bike = Bike::findOrFail($id);
+        if($request->user()->cant('update', $bike))
+                abort(401, 'No puedes borrar una moto que no es tuya');
         $request->validate([
             'marca' => 'required|max:255',
             'modelo' => ['required', 'max:255', new \App\Rules\Mayusculas()],
@@ -113,24 +110,21 @@ class BikeController extends Controller
             'color' => 'nullable|regex:/^#[\dA-F]{6}$/i',
             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
-
         $datos = $request->only('marca', 'modelo', 'kms', 'precio');
-
         $datos['matriculada'] = $request->has('matriculada') ? 1 : 0;
         $datos['matricula'] = $request->has('matriculada') ? $request->input('matricula') : NULL;
         $datos['color'] = $request->input('color') ?? NULL;
-
         $bike->update($datos);
-
         return back()->with('success', "Moto $bike->marca $bike->modelo actualizada");
     }
 
-    public function delete($id) {
-        $bike = Bike::findOrFail($id);
-        return view('bikes.delete', [
-            'bike' => $bike
-        ]);
-    }
+    public function delete(Request $request, Bike $bike) {
+        if($request->user()->cant('delete', $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya');
+            return view('bikes.delete', [
+                'bike' => $bike
+            ]);
+        }
 
     /**
      * Remove the specified resource from storage.
@@ -138,15 +132,14 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Bike $bike)
     {
-        $bike = Bike::findOrFail($id);
+        if($request->user()->cant('delete', $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya');
         $bike->delete();
-
         return redirect('bikes')
-            ->with('success', "Moto $bike->marca $bike->modelo eliminada.");
+        ->with('success', "Moto $bike->marca $bike->modelo eliminada.");
     }
-
 
     public function search(Request $request){
         $request->validate([
@@ -157,19 +150,13 @@ class BikeController extends Controller
             'matriculada' => 'sometimes',
             'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
         ]);
-
-
         $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada']);
-
         $datos += ['imagen' => NULL];
-
         if($request->hasFile('imagen')) {
             $ruta = $request->file('imagen')->store(config('finesystems.bikesImageDir'));
             $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
         }
-
         $bike = Bike::create($datos);
-
         return redirect()
                 ->route('bikes.show', $bike->id)
                 ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente")

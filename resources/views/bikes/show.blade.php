@@ -61,17 +61,21 @@
     <div class="text-end my-3">
         <div class="btn-group mx-2">
             @auth
-            <a href="{{route('bikes.edit', $bike->id) }}" class="mx-2">
+                @if(Auth::user()->can('update', $bike))
+                    <a href="{{route('bikes.edit', $bike->id) }}" class="mx-2">
 
-                <img    src="{{asset('images/buttons/update.png')}}" alt="Modificar" title="Modificar"
-                        height="40" width="40">
-            </a>
+                        <img    src="{{asset('images/buttons/update.png')}}" alt="Modificar" title="Modificar"
+                                height="40" width="40">
+                    </a>
+                @endif
 
-            <a href="{{ route('bikes.delete', $bike->id) }}" class="mx-2">
+                @if(Auth::user()->can('delete', $bike))
+                    <a href="{{ route('bikes.delete', $bike->id) }}" class="mx-2">
 
-                <img    src="{{asset('images/buttons/delete.png')}}" alt="Borrar" title="Borrar"
-                        height="40" width="40">
-            </a>
+                        <img    src="{{asset('images/buttons/delete.png')}}" alt="Borrar" title="Borrar"
+                                height="40" width="40">
+                    </a>
+                @endif
             @endauth
         </div>
     </div>

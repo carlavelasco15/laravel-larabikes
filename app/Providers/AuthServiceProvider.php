@@ -13,7 +13,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+         'App\Models\Model' => 'App\Policies\ModelPolicy',
+         'App\Models\Bike' => 'App\Policies\BikePolicy',
     ];
 
     /**
@@ -24,7 +25,15 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+/*
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new MailMessage)
+                ->subject('Verificar email')
+                ->greetinc('Hola')
+                ->salutation('Un saludo')
+                ->line('Haz clic en la siguiente línea para verificar tu email.')
+                ->action('Verificar emial', $url);
+        }); */
 
-        //
     }
 }

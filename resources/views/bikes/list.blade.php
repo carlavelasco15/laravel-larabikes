@@ -64,17 +64,21 @@
                                 height="20" width="20">
                     </a>
                     @auth
-                    <a href="{{route('bikes.edit', $bike->id)}}">
-                        <img    src="{{asset('images/buttons/update.png')}}"
-                                alt="Modificar" title="Modificar"
-                                height="20" width="20">
-                    </a>
+                        @if(Auth::user()->can('update', $bike))
+                            <a href="{{route('bikes.edit', $bike->id)}}">
+                                <img    src="{{asset('images/buttons/update.png')}}"
+                                        alt="Modificar" title="Modificar"
+                                        height="20" width="20">
+                            </a>
+                        @endif
 
-                    <a href="{{route('bikes.delete', $bike->id)}}">
-                        <img    src="{{asset('images/buttons/delete.png')}}"
-                                alt="Borrar" title="Borrar"
-                                height="20" width="20">
-                    </a>
+                        @if(Auth::user()->can('delete', $bike))
+                            <a href="{{route('bikes.delete', $bike->id)}}">
+                                <img    src="{{asset('images/buttons/delete.png')}}"
+                                        alt="Borrar" title="Borrar"
+                                        height="20" width="20">
+                            </a>
+                        @endif
                     @endauth
                 </td>
             </tr>
