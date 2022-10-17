@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Bike;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,9 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         /* dd($request->user()->email_verified_at); */
-        return view('home');
+        $bikes = $request->user()->bikes();
+        /* dd($request->user()->hasMany('\\App\\Models\\Bike')); */
+
+        return view('home', ['bikes' => $bikes]);
     }
 }

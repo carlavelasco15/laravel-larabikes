@@ -24,9 +24,12 @@
                     <a class="nav-link {{ $pagina == 'listamotos' ? 'active': '' }}" href="{{route('bikes.index')}}">Garaje</a>
                 </li>
                 @auth
-                <li class="nav-item mr-2">
-                    <a class="nav-link {{ $pagina == 'nuevamoto' ? 'active': '' }}" href="{{route('bikes.create')}}">Nueva moto</a>
-                </li>
+                    <li class="nav-item mr-2">
+                        <a class="nav-link {{ $pagina == 'home' ? 'active': '' }}" href="{{route('home')}}">Mis motos</a>
+                    </li>
+                    <li class="nav-item mr-2">
+                        <a class="nav-link {{ $pagina == 'nuevamoto' ? 'active': '' }}" href="{{route('bikes.create')}}">Nueva moto</a>
+                    </li>
                 @endauth
                 <li class="nav-item mr-2">
                     <a href="{{ route('contacto') }}" class="nav-link {{ $pagina == 'contacto' ? 'active' : '' }}">Contacto</a>
