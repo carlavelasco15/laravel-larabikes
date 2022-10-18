@@ -99,7 +99,7 @@ class BikeController extends Controller
                 abort(401, 'No puedes borrar una moto que no es tuya');
         $request->validate([
             'marca' => 'required|max:255',
-            'modelo' => ['required', 'max:255', new \App\Rules\Mayusculas()],
+            'modelo' => ['required', 'max:255'],
             'precio' => 'required|numeric|min:0',
             'kms' => 'required|integer|min:0',
             'matriculada' => 'required_with:matricula',
@@ -142,24 +142,16 @@ class BikeController extends Controller
     }
 
     public function search(Request $request){
-        $request->validate([
-            'marca' => 'required|max:16',
-            'modelo' => 'required|max:255',
-            'precio' => 'required|numeric',
-            'kms' => 'required|integer',
-            'matriculada' => 'sometimes',
-            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-        ]);
-        $datos = $request->only(['marca', 'modelo', 'precio', 'kms', 'matriculada']);
-        $datos += ['imagen' => NULL];
-        if($request->hasFile('imagen')) {
-            $ruta = $request->file('imagen')->store(config('finesystems.bikesImageDir'));
-            $datos['imagen'] = pathinfo($ruta, PATHINFO_BASENAME);
-        }
-        $bike = Bike::create($datos);
-        return redirect()
-                ->route('bikes.show', $bike->id)
-                ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente")
-                ->cookie('lastInsertID', $bike->id, 0);
+        $request->validate(['marca' => 'max:16', 'modelo' => 'max:16']);
+
+        $marca = $request->input('marca', 'a');
+        $modelo = $request->input('modelo', 'b');
+
+        $bikes = Bike::where('marca', 'like', "%$marca%")
+                        ->where('modelo', 'like', "%$modelo%")
+                        ->paginate(config('paginator.bikes'))
+                        ->appends(['marca' => $marca, 'modelo' => $modelo]);
+
+        return view('bikes.list', ['bikes' => $bikes, 'marca' => $marca, 'modelo' => $modelo]);
     }
 }

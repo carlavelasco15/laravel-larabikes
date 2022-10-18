@@ -19,15 +19,18 @@ use App\Models\Bike;
 */
 
 Route::get('/', [WelcomeController::class, 'index'])
-    ->name('portada');
+->name('portada');
 
+Route::get('/bikes/search', [BikeController::class, 'search'])
+    ->name('bikes.search');
 
 Route::resource('bikes', BikeController::class);
 
 Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
         ->name('bikes.delete');
 
-Route::get('bikes/search/{marca?}/{modelo?}',
+
+/* Route::get('bikes/search/{marca?}/{modelo?}',
     function($marca = '', $modelo = '') {
         $bikes = Bike::where('marca', 'like', '%'.$marca.'%')
             ->where('modelo', 'like', '%'.$modelo.'%')
@@ -35,7 +38,7 @@ Route::get('bikes/search/{marca?}/{modelo?}',
 
         return view('bikes.list', ['bikes' => $bikes]);
     }
-);
+); */
 
 Route::fallback([WelcomeController::class, 'index']);
 
@@ -45,9 +48,7 @@ Route::get('/contacto', [ContactoController::class, 'index'])
 Route::post('/contacto', [ContactoController::class, 'send'])
     ->name('contacto.email');
 
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes(['verify' => true]);
 

@@ -34,15 +34,21 @@
         <div class="form-group row my-3">
             <div class="form-check">
                 <input name="matriculada" value="1" class="form-check-input"
-                        type="checkbox" {{$bike->matriculada ? "" : "checked"}}>
+                        type="checkbox" {{$bike->matriculada ? "checked" : "unchecked"}}>
                 <label class="formcheck-label">Matriculada</label>
             </div>
         </div>
 
         <div class="form-check col-sm-6">
-            <label for="inputMatricula" class="col-sm-2 form-abel">Matrícula</label>
-            <input type="text" class="up form-control" name="matrícula"
+            <label for="inputMatricula" class="col-sm-2 form-label">Matrícula</label>
+            <input type="text" class="up form-control" name="matricula"
                     id="inputMatricula" maxlength="7" value="{{ $bike->matricula }}">
+        </div>
+
+        <div class="form-group col-sm-6">
+            <label for="confirmMatricula" class="col-sm-2 form-label">Repetir</label>
+            <input type="text" class="up form-control" name="matricula_confirmation" id="confirmMatricula"
+                maxlength="7" value="{{ $bike->matricula }}">
         </div>
 
         <script>

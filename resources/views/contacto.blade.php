@@ -1,4 +1,3 @@
-@php($pagina ='contacto')
 @extends('layouts.master')
 @section('titulo', 'Contactar con LaraBikes')
 @section('contenido')

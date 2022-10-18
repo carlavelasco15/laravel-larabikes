@@ -43,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     public function bikes() {
-        return ($this->hasMany(Bike::class));
+        //dd($this->hasMany('App\Models\Bike')->get());
+        return $this->hasMany('App\Models\Bike')->get();
     }
 }

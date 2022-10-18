@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@php($pagina = Route::currentRouteName())
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,21 +18,23 @@
     @php ($pagina = $pagina ?? '')
         <nav>
             <ul class="nav nav-pills my-2">
-                <li class="nav-item mr-2">
+                <li class="nav-item ms-2">
                     <a class="nav-link {{ $pagina == 'portada' ? 'active': '' }}" href="{{url('/')}}">Inici</a>
                 </li>
-                <li class="nav-item mr-2">
-                    <a class="nav-link {{ $pagina == 'listamotos' ? 'active': '' }}" href="{{route('bikes.index')}}">Garaje</a>
+                <li class="nav-item ms-2">
+                    <a class="nav-link {{ $pagina == 'bikes.index' ||
+                                        $pagina == 'bikes.search' ? 'active': '' }}" href="{{route('bikes.index')}}">Garaje</a>
+
                 </li>
                 @auth
-                    <li class="nav-item mr-2">
+                    <li class="nav-item ms-2">
                         <a class="nav-link {{ $pagina == 'home' ? 'active': '' }}" href="{{route('home')}}">Mis motos</a>
                     </li>
-                    <li class="nav-item mr-2">
-                        <a class="nav-link {{ $pagina == 'nuevamoto' ? 'active': '' }}" href="{{route('bikes.create')}}">Nueva moto</a>
+                    <li class="nav-item ms-2">
+                        <a class="nav-link {{ $pagina == 'bikes.create' ? 'active': '' }}" href="{{route('bikes.create')}}">Nueva moto</a>
                     </li>
                 @endauth
-                <li class="nav-item mr-2">
+                <li class="nav-item ms-2">
                     <a href="{{ route('contacto') }}" class="nav-link {{ $pagina == 'contacto' ? 'active' : '' }}">Contacto</a>
                 </li>
             </ul>
