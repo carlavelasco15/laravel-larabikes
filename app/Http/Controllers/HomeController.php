@@ -24,10 +24,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        /* dd($request->user()->email_verified_at); */
-        $bikes = $request->user()->bikes();
-        /* dd($request->user()->hasMany('\\App\\Models\\Bike')); */
+        $bikes = $request->user()->bikes()->paginate(config('pagination.bikes', 10));
 
-        return view('home', ['bikes' => $bikes]);
+        $deletedBikes = $request->user()->bikes()->onlyTrashed()->get();
+
+        return view('home', ['bikes' => $bikes, 'deletedBikes' => $deletedBikes]);
     }
 }

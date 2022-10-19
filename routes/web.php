@@ -17,6 +17,11 @@ use App\Models\Bike;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::delete('/bikes/purgue', [BikeController::class, 'purgue'])
+    ->name('bikes.purgue');
+
+Route::get('/bikes/{bike}/restore', [BikeController::class, 'restore'])
+    ->name('bikes.restore');
 
 Route::get('/', [WelcomeController::class, 'index'])
 ->name('portada');
@@ -29,17 +34,6 @@ Route::resource('bikes', BikeController::class);
 Route::get('bikes/{bike}/delete', [BikeController::class, 'delete'])
         ->name('bikes.delete');
 
-
-/* Route::get('bikes/search/{marca?}/{modelo?}',
-    function($marca = '', $modelo = '') {
-        $bikes = Bike::where('marca', 'like', '%'.$marca.'%')
-            ->where('modelo', 'like', '%'.$modelo.'%')
-            ->paginate(config('pagination.bikes'));
-
-        return view('bikes.list', ['bikes' => $bikes]);
-    }
-); */
-
 Route::fallback([WelcomeController::class, 'index']);
 
 Route::get('/contacto', [ContactoController::class, 'index'])
@@ -50,5 +44,9 @@ Route::post('/contacto', [ContactoController::class, 'send'])
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Auth::routes(['verify' => true]);
 
 

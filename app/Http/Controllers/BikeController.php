@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Bike;
 use App\Http\Requests\BikeRequest;
+use Illuminate\Support\Facades\Storage;
 
 class BikeController extends Controller
 {
@@ -124,7 +125,7 @@ class BikeController extends Controller
             return view('bikes.delete', [
                 'bike' => $bike
             ]);
-        }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -138,20 +139,41 @@ class BikeController extends Controller
             abort(401, 'No puedes borrar una moto que no es tuya');
         $bike->delete();
         return redirect('bikes')
-        ->with('success', "Moto $bike->marca $bike->modelo eliminada.");
+            ->with('success', "Moto $bike->marca $bike->modelo eliminada.");
+    }
+
+    public function purgue(Request $request)
+    {
+        $bike = Bike::withTrashed()->find($request->input('bike_id'));
+        if($request->user()->cant('delete', $bike))
+            abort(401, 'No puedes borrar una moto que no es tuya');
+        if($bike->forceDelete() && $bike->imagen)
+            Storage::delete(config('filesystems.bikesImageDir').'/'.$bike->imagen);
+
+        return back()->with(
+            'success',
+            "Moto $bike->marca $bike->modelo eliminada definitivamente."
+        );
     }
 
     public function search(Request $request){
         $request->validate(['marca' => 'max:16', 'modelo' => 'max:16']);
-
         $marca = $request->input('marca', 'a');
         $modelo = $request->input('modelo', 'b');
-
         $bikes = Bike::where('marca', 'like', "%$marca%")
                         ->where('modelo', 'like', "%$modelo%")
                         ->paginate(config('paginator.bikes'))
                         ->appends(['marca' => $marca, 'modelo' => $modelo]);
-
         return view('bikes.list', ['bikes' => $bikes, 'marca' => $marca, 'modelo' => $modelo]);
+    }
+
+    public function restore(int $id)
+    {
+        $bike = Bike::withTrashed()->find($id);
+        $bike->restore();
+        return back()->with(
+            'success',
+            "Moto $bike->marca $bike->modelo restaurada correctamente."
+        );
     }
 }

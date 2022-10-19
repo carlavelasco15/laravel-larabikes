@@ -43,7 +43,28 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     public function bikes() {
-        //dd($this->hasMany('App\Models\Bike')->get());
-        return $this->hasMany('App\Models\Bike')->get();
+        return $this->hasMany('App\Models\Bike');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role');
+    }
+
+    public function hasRole($roleNames):bool
+    {
+        if(!is_array($roleNames))
+            $roleNames = [$roleNames];
+        foreach($this->roles as $role)
+        {
+            if(in_array($role->role, $roleNames))
+                return true;
+        }
+        return false;
+    }
+
+    public function isOwner(Bike $bike):bool
+    {
+        return $this->id == $bike->user_id;
     }
 }

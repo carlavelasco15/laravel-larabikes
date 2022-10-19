@@ -85,6 +85,60 @@
                 </tr>
                 @endforelse
             </table>
+
+            <h3 class="mt-4">Motos borradas</h3>
+            <table class="table table-striped table-bordered my-3">
+                <tr>
+                    <th>ID</th>
+                    <th>Imagen</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Matrícula</th>
+                    <th>Color</th>
+                    <th>Operaciones</th>
+                </tr>
+
+                @forelse($deletedBikes as $bike)
+                    <tr>
+                        <td>{{ $bike->id }}</td>
+                        <td class="text-center" style="max-width: 80px">
+                            <img class="rounded" style="max-width: 80%"
+                                alt="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+                                title="Imagen de {{$bike->marca}} {{$bike->modelo}}"
+                                src="{{
+                                        $bike->imagen?
+                                        asset('storage/'.config('filesystems.bikesImageDir')).'/'.$bike->imagen:
+                                        asset('storage/'.config('filesystems.bikesImageDir')).'/default.jpg'
+                                    }}">
+                        </td>
+                        <td>{{ $bike->marca }}</td>
+                        <td>{{ $bike->modelo }}</td>
+                        <td>{{ $bike->matrícula }}</td>
+                        <td style="background-color: {{ $bike->color }}">{{ $bike->color }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('bikes.restore', $bike->id) }}">
+                                <button class="btn btn-success">Restaurar</button>
+                            </a>
+                            <form method="POST" action="{{ route('bikes.purgue') }}">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="bike_id" value="{{ $bike->id }}">
+                                <input type="submit" alt="Borrar" title="Eliminar"
+                                    class="btn btn-danger" value="Eliminar">
+                            </form>
+                        </td>
+                    </tr>
+                    @if($loop->last)
+                    <tr>
+                        <td colspan="7">Mostrando {{sizeof($bikes)}} de {{$total}}.</td>
+                    </tr>
+                    @endif
+                @empty
+                <tr>
+                    <td colspan="7">No hay motos para mostrar</td>
+                </tr>
+                @endforelse
+            </table>
         </div>
     </div>
 </div>

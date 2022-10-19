@@ -3,11 +3,6 @@
 @section('contenido')
     <h2>Listado de motos</h2>
 
-    @if(Session::has('success'))
-        <div class="alert alert-success">
-            {{Session::get('success')}}
-        </div>
-    @endif
 {{--
     <form method="GET" action="{{route('bikes.search')}}" class="col-4 d-flex flex-row">
         {{csrf_field()}}
@@ -41,7 +36,7 @@
         <div class="row">
             <div class="col-6 text-start">{{ $bikes->links() }}</div>
             <div class="col-6 text-end">
-                <p> Nueva moto <a href="" class="btn btn-success ml-2" href="{{route('bikes.create')}}">+</a></p>
+                <p> Nueva moto <a class="btn btn-success ml-2" href="{{route('bikes.create')}}">+</a></p>
             </div>
         </div>
     @endauth
