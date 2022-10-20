@@ -115,6 +115,24 @@ class BikeController extends Controller
         $datos['matriculada'] = $request->has('matriculada') ? 1 : 0;
         $datos['matricula'] = $request->has('matriculada') ? $request->input('matricula') : NULL;
         $datos['color'] = $request->input('color') ?? NULL;
+        if ($request->hasFile('imagen'))
+        {
+            if ($bike->imagen)
+                $aBorrar = config('filesystems.bikesImageDir') . '/' . $bike->imagen;
+            $imagenNueva = $request->file('imagen')->store(config('filesystems.bikesImageDir'));
+            $datos['imagen'] = pathinfo($imagenNueva, PATHINFO_BASENAME);
+        }
+        if ($request->filled('eliminarimagen') && $bike->imagen) {
+            $datos['imagen'] = NULL;
+            $aBorrar = config('filesystems.bikesImageDir') . '/' . $bike->imagen;
+        }
+        if ($bike->update($datos)) {
+            if(isset($aBorrar))
+                Storage::delete($aBorrar);
+        } else {
+            if(isset($imagenNueva))
+                Storage::delete($imagenNueva);
+        }
         $bike->update($datos);
         return back()->with('success', "Moto $bike->marca $bike->modelo actualizada");
     }

@@ -3,11 +3,21 @@
 @section('titulo', "Confirmación de borrado de $bike->marca $bike->modelo")
 
 @section('contenido')
-    <form action="{{route('bikes.destroy', $bike->id)}}" class="my-2 border p-5" method="POST">
+    <form  class="my-2 border p-5" method="POST"
+            action="{{URL::temporarySignedRoute('bikes.destroy', now()->addMinutes(1), $bike->id)}}">
         {{ csrf_field() }}
         <input type="hidden" value="DELETE" name="_method">
+        <figure>
+            <figcaption>Imagen actual</figcaption>
+            <img src="{{ $bike->imagen ?
+                        asset('storage/' . config('filesystems.bikesImageDir')) . '/'.$bike->imagen:
+                        asset('storage/' . config('filesystems.bikesImageDir')) . '/default.jpg' }}"
+                title="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+                alt="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+                class="rounded" style="max-width: 400px">
+        </figure>
 
-        <label for="cinformdelete">Confirma el borrado de {{"$bike->marca $bike->modelo"}}</label>
+        <label for="confirmdelete">Confirma el borrado de {{"$bike->marca $bike->modelo"}}</label>
         <input type="submit" class="btn btn-danger m-4" alt="Borrar" title="Borrar"
                 value="Borrar" id="confirmdelete">
     </form>

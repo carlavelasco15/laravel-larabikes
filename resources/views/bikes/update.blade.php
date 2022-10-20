@@ -97,6 +97,39 @@
         </div>
     </div>
 
+    <div class="form-group row my-3">
+        <div class="col-sm-9">
+            <label for="inputImagen" class="col-sm-2 col-form-label">
+                {{ $bike->imagen ? 'Sustituir' : 'Añadir' }} imagen
+            </label>
+            <input type="file" name="imagen" class="form-control-file" id="inputImagen">
+
+            @if($bike->imagen)
+            <div class="form-check my-3">
+                <input type="checkbox" class="form-check-input"
+                    name="eliminarimagen" id="inputEliminar">
+                <label for="inputEliminar" class="form-check-label">Eliminar imagen</label>
+            </div>
+            <script>
+                inputEliminar.onchange = function() {
+                    inputImagen.disabled = this.checked;
+                }
+            </script>
+            @endif
+        </div>
+        <div class="col-sm-3">
+            <label>Imagen actual:</label>
+            <img class="rounded img-thumbnail my-3"
+                    alt="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+                    title="Imagen de {{ $bike->marca }} {{ $bike->modelo }}"
+                    src="{{
+                        $bike->imagen ?
+                        asset('storage/' . config('filesystems.bikesImageDir')) . '/' . $bike->imagen :
+                        asset('storage/' . config('filesystems.bikesImageDir')) . '/default.jpg'
+                    }}">
+        </div>
+    </div>
+
     <div class="btn-group" role="group" aria-label="Links">
         <a href="{{ url('/') }}" class="btn btn-primary m-2">Inicio</a>
         <a href="{{ route('bikes.index') }}" class="btn btn-primary m-2">Garaje</a>
