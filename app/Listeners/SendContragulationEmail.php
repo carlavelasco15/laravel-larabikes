@@ -3,10 +3,12 @@
 namespace App\Listeners;
 
 use App\Events\FirstBikeCreated;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Mail\Congratulation;
 
-class SendCongratulationEmail
+class SendContragulationEmail
 {
     /**
      * Create the event listener.
@@ -21,11 +23,11 @@ class SendCongratulationEmail
     /**
      * Handle the event.
      *
-     * @param  \App\Events\FirstBikeCreated  $event
+     * @param  object  $event
      * @return void
      */
     public function handle(FirstBikeCreated $event)
     {
-        //
+       Mail::to($event->user->email)->send(new Congratulation($event->bike));
     }
 }

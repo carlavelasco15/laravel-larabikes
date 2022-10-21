@@ -17,7 +17,6 @@ class FirstBikeCreated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $bike, $user;
-
     /**
      * Create a new event instance.
      *

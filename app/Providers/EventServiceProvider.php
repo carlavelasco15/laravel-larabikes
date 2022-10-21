@@ -23,7 +23,8 @@ class EventServiceProvider extends ServiceProvider
 
         FirstBikeCreated::class => [
             SendCongratulationEmail::class,
-        ]
+        ],
+
     ];
 
     /**

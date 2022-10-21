@@ -65,7 +65,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Location') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="text" class="form-control" name="location" required autocomplete="location">
+                                <input id="password-confirm" type="text" class="form-control" name="location" autocomplete="location">
                             </div>
                         </div>
 
