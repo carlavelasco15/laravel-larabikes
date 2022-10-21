@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FirstBikeCreated;
 use Illuminate\Http\Request;
 use App\Models\Bike;
 use App\Http\Requests\BikeRequest;
@@ -53,6 +54,8 @@ class BikeController extends Controller
         }
         $datos['user_id'] = $request->user()->id;
         $bike = Bike::create($datos);
+        if($request->user()->bikes->count() == 1)
+            FirstBikeCreated::dispatch($bike, $request->user());
         return redirect()
                 ->route('bikes.show', $bike->id)
                 ->with('success', "Moto $bike->marca $bike->modelo añadida satisfactoriamente")

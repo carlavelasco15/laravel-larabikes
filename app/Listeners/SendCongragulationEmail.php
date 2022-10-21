@@ -3,23 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\FirstBikeCreated;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use App\Mail\Congratulation;
+use Illuminate\Support\Facades\Mail;
 
 class SendContragulationEmail
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *

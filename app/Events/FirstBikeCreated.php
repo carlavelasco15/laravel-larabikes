@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class FirstBikeCreated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     public $bike, $user;
     /**
@@ -26,15 +26,5 @@ class FirstBikeCreated
     {
         $this->bike = $bike;
         $this->user = $user;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
     }
 }
