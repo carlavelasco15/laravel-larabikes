@@ -69,7 +69,7 @@
         </div>
 
         <div class="form-check col-sm-6">
-            <label for="inputColor" class="col-sm-2 fom-label">Color</label>
+            <label for="inputColor" class="col-sm-2 form-label">Color</label>
             <input type="color" class="up form-control form-control-color" name="color"
                     id="inputColor" value="{{ old('color') ?? '#FFFFFF' }}">
         </div>

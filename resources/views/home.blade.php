@@ -21,7 +21,8 @@
                 </div>
             </div>
 
-            <table class="table table-striped table-bordered my-5">
+            <h3 class="mt-5">Mis motos</h3>
+            <table class="table table-striped table-bordered my-3">
                 <tr>
                     <th>ID</th>
                     <th>Imagen</th>
@@ -47,7 +48,7 @@
                         </td>
                         <td>{{ $bike->marca }}</td>
                         <td>{{ $bike->modelo }}</td>
-                        <td>{{ $bike->matrícula }}</td>
+                        <td>{{ $bike->matricula }}</td>
                         <td style="background-color: {{ $bike->color }}">{{ $bike->color }}</td>
                         <td class="text-center">
                             <a href="{{route('bikes.show', $bike->id)}}">
@@ -86,7 +87,7 @@
                 @endforelse
             </table>
 
-            <h3 class="mt-4">Motos borradas</h3>
+            <h3 class="mt-5">Motos borradas</h3>
             <table class="table table-striped table-bordered my-3">
                 <tr>
                     <th>ID</th>
@@ -113,9 +114,9 @@
                         </td>
                         <td>{{ $bike->marca }}</td>
                         <td>{{ $bike->modelo }}</td>
-                        <td>{{ $bike->matrícula }}</td>
+                        <td>{{ $bike->matricula }}</td>
                         <td style="background-color: {{ $bike->color }}">{{ $bike->color }}</td>
-                        <td class="text-center">
+                        <td class="text-center d-flex justify-content-around">
                             <a href="{{ route('bikes.restore', $bike->id) }}">
                                 <button class="btn btn-success">Restaurar</button>
                             </a>

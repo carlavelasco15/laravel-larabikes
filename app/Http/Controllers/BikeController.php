@@ -6,6 +6,7 @@ use App\Events\FirstBikeCreated;
 use Illuminate\Http\Request;
 use App\Models\Bike;
 use App\Http\Requests\BikeRequest;
+use App\Http\Requests\BikeUpdateRequest;
 use Illuminate\Support\Facades\Storage;
 
 class BikeController extends Controller
@@ -54,7 +55,7 @@ class BikeController extends Controller
         }
         $datos['user_id'] = $request->user()->id;
         $bike = Bike::create($datos);
-        if($request->user()->bikes->count() == 1)
+        if($request->user()->bikes->count() == 1) 
             FirstBikeCreated::dispatch($bike, $request->user());
         return redirect()
                 ->route('bikes.show', $bike->id)
@@ -97,23 +98,10 @@ class BikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bike $bike)
+    public function update(BikeUpdateRequest $request, Bike $bike)
     {
         if($request->user()->cant('update', $bike))
                 abort(401, 'No puedes borrar una moto que no es tuya');
-        $request->validate([
-            'marca' => 'required|max:255',
-            'modelo' => ['required', 'max:255'],
-            'precio' => 'required|numeric|min:0',
-            'kms' => 'required|integer|min:0',
-            'matriculada' => 'required_with:matricula',
-            'matricula' => "required_if:matriculada,1|
-                            nullable|
-                            regex:/^\d{4}[B-Z]{3}$/i|
-                            unique:bikes,matricula,$bike->id",
-            'color' => 'nullable|regex:/^#[\dA-F]{6}$/i',
-            'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'
-        ]);
         $datos = $request->only('marca', 'modelo', 'kms', 'precio');
         $datos['matriculada'] = $request->has('matriculada') ? 1 : 0;
         $datos['matricula'] = $request->has('matriculada') ? $request->input('matricula') : NULL;

@@ -3,7 +3,7 @@
 @section('contenido')
     <h2>Actualización de la moto {{"$bike->marca $bike->modelo"}}</h2>
 
-    <form action="{{route('bikes.update', $bike->id)}}" class="my-2 border p-5" method="POST">
+    <form action="{{route('bikes.update', $bike->id)}}" class="my-2 border p-5" method="POST" enctype="multipart/form-data">
         {{csrf_field()}}
         <input name="_method" type="hidden" value="PUT">
 

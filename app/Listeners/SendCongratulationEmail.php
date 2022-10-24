@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Listeners;
 
 use App\Events\FirstBikeCreated;
 use App\Mail\Congratulation;
 use Illuminate\Support\Facades\Mail;
 
-class SendContragulationEmail
+class SendCongratulationEmail
 {
     /**
      * Handle the event.
