@@ -21,7 +21,7 @@ Route::get(
 );
 
 Route::get(
-    '/motos/{bike}',
+    '/moto/{bike}',
     [BikeApiController::class, 'show']
 )->where('bike', '^\d+$');
 
@@ -31,11 +31,16 @@ Route::get(
 )->where('campo', '^marca|modelo|matricula$');
 
 Route::post(
-    '/moto',
+    '/motos',
     [BikeApiController::class, 'store']
 );
 
 Route::put(
+    '/moto/{bike}',
+    [BikeApiController::class, 'update']
+);
+
+Route::delete(
     '/moto/{bike}',
     [BikeApiController::class, 'delete']
 );

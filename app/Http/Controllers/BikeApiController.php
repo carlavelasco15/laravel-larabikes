@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ApiCreateBikeRequest;
 use App\Http\Requests\ApiUpdateBikeRequest;
+/* use App\Http\Requests\ApiUpdateBikeRequest; */
 use App\Models\Bike;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,7 @@ class BikeApiController extends Controller
         $datos['imagen'] = NULL;
         $datos['user_id'] = NULL;
 
-        $moto = Bike::created($datos);
+        $moto = Bike::create($datos);
 
         return $moto ?
             response([
@@ -56,6 +57,7 @@ class BikeApiController extends Controller
                 'message' => 'No se pudo guardar.'
             ], 400);
     }
+
 
     public function update(ApiUpdateBikeRequest $request, $id) {
         $moto = Bike::find($id);

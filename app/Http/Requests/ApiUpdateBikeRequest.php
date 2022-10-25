@@ -12,7 +12,7 @@ class ApiUpdateBikeRequest extends ApiCreateBikeRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,10 @@ class ApiUpdateBikeRequest extends ApiCreateBikeRequest
     {
         $id = $this->route('bike');
         return [
-            'matriculada' => "required_if:matriculada,1|
+            'matricula' => "required_if:matriculada,1|
                                         nullable|
                                         regex:/^\d{4}[BCDFGHJKLMNPQRSTVWXYZ]{3}$/i|
-                                        unique:bikes,matriculada,$id" 
+                                        unique:bikes,matriculada,$id"
         ]+parent::rules();
     }
 }
