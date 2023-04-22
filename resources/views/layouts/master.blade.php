@@ -72,7 +72,7 @@
             <!-- FOOTER -->
             @section('pie')
             <footer class="page-footer font-small p-4 my-2 bg-light">
-                <p>Aplicación creada por Robert Sallent como ejemplo en clase.
+                <p>Aplicación creada por Carla Velasco como ejemplo en clase.
                     Desarrollada haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
             </footer>
         @show

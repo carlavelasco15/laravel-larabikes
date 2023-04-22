@@ -39,7 +39,7 @@
         </form>
     </main>
     <footer class="page-footer font-small p-4 bg-light">
-        <p>Aplicación crada por Robert Sallent para CIFO Sabadell como ejemplo de clase.
+        <p>Aplicación crada Carla Velasco para CIFO Sabadell como ejemplo de clase.
         Desarrollalda haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
     </footer>
 </body>

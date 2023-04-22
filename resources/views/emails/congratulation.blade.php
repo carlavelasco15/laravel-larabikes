@@ -19,7 +19,7 @@
         <p>Sigue así, estás colaborando para que LaraBikes se convierta en la primera red de usuarios de motocicletas de los CIFO.</p>
     </main>
     <footer class="page-footer font-small p-4 bg-light">
-        <p>Aplicación crada por Rober Sallent como ejemplo de clase.</p>
+        <p>Aplicación crada por Carla Velasco como ejemplo de clase.</p>
         <p>Desarrollada haciendo uso de <b>Laravel</b> y <b>Bootstrap</b>.</p>
     </footer>
 </body>

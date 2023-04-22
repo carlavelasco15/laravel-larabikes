@@ -96,12 +96,12 @@
             </tr>
             @if($loop->last)
             <tr>
-                <td colspan="4">Mostrando {{sizeof($bikes)}} de {{$total}}.</td>
+                <td colspan="7">Mostrando {{sizeof($bikes)}} de {{$total}}.</td>
             </tr>
             @endif
         @empty
         <tr>
-            <td colspan="4">No hay motos para mostrar</td>
+            <td colspan="7">No hay motos para mostrar</td>
         </tr>
         @endforelse
     </table>
